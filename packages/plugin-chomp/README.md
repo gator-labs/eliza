@@ -9,6 +9,7 @@ This plugin provides functionality for managing and interacting with Chomp game 
 ### Actions
 
 #### findQuestion
+
 Searches and retrieves questions based on criteria like difficulty, topic, or keywords.
 
 ```typescript
@@ -18,11 +19,12 @@ import { findQuestion } from "@elizaos/plugin-chomp";
 const result = await findQuestion.handler(runtime, {
     input: "find a beginner JavaScript question",
     entities: [],
-    intent: "find_question"
+    intent: "find_question",
 });
 ```
 
 #### createQuestion
+
 Creates new coding challenge questions with specified parameters.
 
 ```typescript
@@ -32,7 +34,7 @@ import { createQuestion } from "@elizaos/plugin-chomp";
 const result = await createQuestion.handler(runtime, {
     input: "create a question about array manipulation",
     entities: [],
-    intent: "create_question"
+    intent: "create_question",
 });
 ```
 

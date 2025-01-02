@@ -1,42 +1,42 @@
-import type { TSESTree } from '@typescript-eslint/types';
-import { TypeScriptParser } from './TypeScriptParser.js';
-import { ASTQueueItem } from './types/index.js';
+import type { TSESTree } from "@typescript-eslint/types";
+import { TypeScriptParser } from "./TypeScriptParser.js";
+import { ASTQueueItem } from "./types/index.js";
 
 type AST_NODE_TYPES = {
-    ClassDeclaration: 'ClassDeclaration';
-    FunctionDeclaration: 'FunctionDeclaration';
-    TSTypeAliasDeclaration: 'TSTypeAliasDeclaration';
-    TSEnumDeclaration: 'TSEnumDeclaration';
-    MethodDefinition: 'MethodDefinition';
-    TSMethodSignature: 'TSMethodSignature';
-    TSInterfaceDeclaration: 'TSInterfaceDeclaration';
-    TSPropertySignature: 'TSPropertySignature';
-    ExportNamedDeclaration: 'ExportNamedDeclaration';
-    Identifier: 'Identifier';
+    ClassDeclaration: "ClassDeclaration";
+    FunctionDeclaration: "FunctionDeclaration";
+    TSTypeAliasDeclaration: "TSTypeAliasDeclaration";
+    TSEnumDeclaration: "TSEnumDeclaration";
+    MethodDefinition: "MethodDefinition";
+    TSMethodSignature: "TSMethodSignature";
+    TSInterfaceDeclaration: "TSInterfaceDeclaration";
+    TSPropertySignature: "TSPropertySignature";
+    ExportNamedDeclaration: "ExportNamedDeclaration";
+    Identifier: "Identifier";
 };
 
 const AST_NODE_TYPES = {
-    ClassDeclaration: 'ClassDeclaration',
-    FunctionDeclaration: 'FunctionDeclaration',
-    TSTypeAliasDeclaration: 'TSTypeAliasDeclaration',
-    TSEnumDeclaration: 'TSEnumDeclaration',
-    MethodDefinition: 'MethodDefinition',
-    TSMethodSignature: 'TSMethodSignature',
-    TSInterfaceDeclaration: 'TSInterfaceDeclaration',
-    TSPropertySignature: 'TSPropertySignature',
-    ExportNamedDeclaration: 'ExportNamedDeclaration',
-    Identifier: 'Identifier',
+    ClassDeclaration: "ClassDeclaration",
+    FunctionDeclaration: "FunctionDeclaration",
+    TSTypeAliasDeclaration: "TSTypeAliasDeclaration",
+    TSEnumDeclaration: "TSEnumDeclaration",
+    MethodDefinition: "MethodDefinition",
+    TSMethodSignature: "TSMethodSignature",
+    TSInterfaceDeclaration: "TSInterfaceDeclaration",
+    TSPropertySignature: "TSPropertySignature",
+    ExportNamedDeclaration: "ExportNamedDeclaration",
+    Identifier: "Identifier",
 } as const;
 
 type DocumentableNodeType =
-    | 'ClassDeclaration'
-    | 'FunctionDeclaration'
-    | 'TSTypeAliasDeclaration'
-    | 'TSEnumDeclaration'
-    | 'MethodDefinition'
-    | 'TSMethodSignature'
-    | 'TSInterfaceDeclaration'
-    | 'TSPropertySignature';
+    | "ClassDeclaration"
+    | "FunctionDeclaration"
+    | "TSTypeAliasDeclaration"
+    | "TSEnumDeclaration"
+    | "MethodDefinition"
+    | "TSMethodSignature"
+    | "TSInterfaceDeclaration"
+    | "TSPropertySignature";
 
 interface Location {
     start: number;
@@ -47,7 +47,6 @@ interface Location {
  * Class to analyze JSDoc comments in TypeScript code.
  */
 export class JsDocAnalyzer {
-
     private documentableTypes: Set<DocumentableNodeType> = new Set([
         AST_NODE_TYPES.ClassDeclaration,
         AST_NODE_TYPES.FunctionDeclaration,
@@ -56,48 +55,60 @@ export class JsDocAnalyzer {
         AST_NODE_TYPES.MethodDefinition,
         AST_NODE_TYPES.TSMethodSignature,
         AST_NODE_TYPES.TSPropertySignature,
-        AST_NODE_TYPES.TSInterfaceDeclaration
+        AST_NODE_TYPES.TSInterfaceDeclaration,
     ]);
 
     /**
      * Type guard to check if a node is a ClassDeclaration
      */
-    private isClassDeclaration(node: TSESTree.Node): node is TSESTree.ClassDeclaration {
+    private isClassDeclaration(
+        node: TSESTree.Node
+    ): node is TSESTree.ClassDeclaration {
         return node.type === AST_NODE_TYPES.ClassDeclaration;
     }
 
     /**
      * Type guard to check if a node is an InterfaceDeclaration
      */
-    private isInterfaceDeclaration(node: TSESTree.Node): node is TSESTree.TSInterfaceDeclaration {
-        return node.type === 'TSInterfaceDeclaration';  // Changed to match AST
+    private isInterfaceDeclaration(
+        node: TSESTree.Node
+    ): node is TSESTree.TSInterfaceDeclaration {
+        return node.type === "TSInterfaceDeclaration"; // Changed to match AST
     }
 
     /**
      * Type guard to check if a node is a MethodDefinition
      */
-    private isMethodDefinition(node: TSESTree.Node): node is TSESTree.MethodDefinition {
+    private isMethodDefinition(
+        node: TSESTree.Node
+    ): node is TSESTree.MethodDefinition {
         return node.type === AST_NODE_TYPES.MethodDefinition;
     }
 
     /**
      * Type guard for interface method signatures
      */
-    private isMethodSignature(node: TSESTree.Node): node is TSESTree.TSMethodSignature {
+    private isMethodSignature(
+        node: TSESTree.Node
+    ): node is TSESTree.TSMethodSignature {
         return node.type === AST_NODE_TYPES.TSMethodSignature;
     }
 
     /**
      * Type guard for interface property signatures
      */
-    private isPropertySignature(node: TSESTree.Node): node is TSESTree.TSPropertySignature {
+    private isPropertySignature(
+        node: TSESTree.Node
+    ): node is TSESTree.TSPropertySignature {
         return node.type === AST_NODE_TYPES.TSPropertySignature;
     }
 
     /**
      * Type guard for ExportNamedDeclaration nodes
      */
-    private isExportNamedDeclaration(node: TSESTree.Node): node is TSESTree.ExportNamedDeclaration {
+    private isExportNamedDeclaration(
+        node: TSESTree.Node
+    ): node is TSESTree.ExportNamedDeclaration {
         return node.type === AST_NODE_TYPES.ExportNamedDeclaration;
     }
 
@@ -122,10 +133,10 @@ export class JsDocAnalyzer {
     }
 
     /**
-  * Gets the method name from a MethodDefinition node
-  * @param node - The method definition node
-  * @returns The method name or undefined
-  */
+     * Gets the method name from a MethodDefinition node
+     * @param node - The method definition node
+     * @returns The method name or undefined
+     */
     private getMethodName(node: TSESTree.MethodDefinition): string | undefined {
         if (this.isIdentifier(node.key)) {
             return node.key.name;
@@ -143,17 +154,25 @@ export class JsDocAnalyzer {
             return this.getMethodName(actualNode);
         }
 
-        if (this.isMethodSignature(actualNode) || this.isPropertySignature(actualNode)) {
-            return this.isIdentifier(actualNode.key) ? actualNode.key.name : undefined;
+        if (
+            this.isMethodSignature(actualNode) ||
+            this.isPropertySignature(actualNode)
+        ) {
+            return this.isIdentifier(actualNode.key)
+                ? actualNode.key.name
+                : undefined;
         }
 
-        if ('id' in actualNode && actualNode.id && this.isIdentifier(actualNode.id)) {
+        if (
+            "id" in actualNode &&
+            actualNode.id &&
+            this.isIdentifier(actualNode.id)
+        ) {
             return actualNode.id.name;
         }
 
         return undefined;
     }
-
 
     public missingJsDocNodes: TSESTree.Node[] = [];
 
@@ -161,11 +180,7 @@ export class JsDocAnalyzer {
      * Constructor for initializing a new instance.
      * @param {TypeScriptParser} typeScriptParser - An instance of TypeScriptParser used for parsing TypeScript code.
      */
-    constructor(
-        public typeScriptParser: TypeScriptParser,
-    ) { }
-
-
+    constructor(public typeScriptParser: TypeScriptParser) {}
 
     /**
      * Analyzes the Abstract Syntax Tree (AST) of a program.
@@ -191,21 +206,26 @@ export class JsDocAnalyzer {
         }
 
         // Handle specific node types that can have children
-        if ('body' in node) {
+        if ("body" in node) {
             const body = Array.isArray(node.body) ? node.body : [node.body];
-            body.forEach(child => {
-                if (child && typeof child === 'object') {
+            body.forEach((child) => {
+                if (child && typeof child === "object") {
                     this.traverse(child as TSESTree.Node, comments);
                 }
             });
         }
 
         // Handle other common child properties
-        ['consequent', 'alternate', 'init', 'test', 'update'].forEach(prop => {
-            if (prop in node && node[prop as keyof TSESTree.Node]) {
-                this.traverse(node[prop as keyof TSESTree.Node] as TSESTree.Node, comments);
+        ["consequent", "alternate", "init", "test", "update"].forEach(
+            (prop) => {
+                if (prop in node && node[prop as keyof TSESTree.Node]) {
+                    this.traverse(
+                        node[prop as keyof TSESTree.Node] as TSESTree.Node,
+                        comments
+                    );
+                }
             }
-        });
+        );
     }
 
     /**
@@ -215,14 +235,16 @@ export class JsDocAnalyzer {
      */
     public shouldHaveJSDoc(node: TSESTree.Node): boolean {
         const actualNode = this.getActualNode(node);
-        return this.documentableTypes.has(actualNode.type as DocumentableNodeType);
+        return this.documentableTypes.has(
+            actualNode.type as DocumentableNodeType
+        );
     }
 
     /**
-    * Gets any child nodes that should be processed for JSDoc
-    * @param node - The parent node
-    * @returns Array of child nodes that need JSDoc
-    */
+     * Gets any child nodes that should be processed for JSDoc
+     * @param node - The parent node
+     * @returns Array of child nodes that need JSDoc
+     */
     public getDocumentableChildren(node: TSESTree.Node): TSESTree.Node[] {
         const actualNode = this.getActualNode(node);
 
@@ -241,12 +263,18 @@ export class JsDocAnalyzer {
     /**
      * Creates a queue item from a node
      */
-    public createQueueItem(node: TSESTree.Node, filePath: string, code: string): ASTQueueItem {
+    public createQueueItem(
+        node: TSESTree.Node,
+        filePath: string,
+        code: string
+    ): ASTQueueItem {
         const actualNode = this.getActualNode(node);
         const nodeName = this.getNodeName(node);
-        const parentInterface = this.isMethodSignature(actualNode) || this.isPropertySignature(actualNode)
-            ? this.getParentInterfaceName(node)
-            : undefined;
+        const parentInterface =
+            this.isMethodSignature(actualNode) ||
+            this.isPropertySignature(actualNode)
+                ? this.getParentInterfaceName(node)
+                : undefined;
         const parentClass = this.isMethodDefinition(actualNode)
             ? this.getParentClassName(node)
             : undefined;
@@ -257,9 +285,12 @@ export class JsDocAnalyzer {
             endLine: node.loc?.end.line || 0,
             nodeType: actualNode.type,
             className: parentClass || parentInterface,
-            methodName: (this.isMethodDefinition(actualNode) || this.isMethodSignature(actualNode) || this.isPropertySignature(actualNode))
-                ? nodeName
-                : undefined,
+            methodName:
+                this.isMethodDefinition(actualNode) ||
+                this.isMethodSignature(actualNode) ||
+                this.isPropertySignature(actualNode)
+                    ? nodeName
+                    : undefined,
             name: nodeName!,
             code: code,
         };
@@ -274,7 +305,10 @@ export class JsDocAnalyzer {
         let current = node.parent;
         while (current) {
             const actualNode = this.getActualNode(current);
-            if (this.isClassDeclaration(actualNode) && this.isIdentifier(actualNode.id!)) {
+            if (
+                this.isClassDeclaration(actualNode) &&
+                this.isIdentifier(actualNode.id!)
+            ) {
                 return actualNode.id.name;
             }
             current = current.parent;
@@ -289,15 +323,16 @@ export class JsDocAnalyzer {
         let current = node.parent;
         while (current) {
             const actualNode = this.getActualNode(current);
-            if (this.isInterfaceDeclaration(actualNode) && this.isIdentifier(actualNode.id)) {
+            if (
+                this.isInterfaceDeclaration(actualNode) &&
+                this.isIdentifier(actualNode.id)
+            ) {
                 return actualNode.id.name;
             }
             current = current.parent;
         }
         return undefined;
     }
-
-
 
     /**
      * Check if the given node is a class node.
@@ -306,11 +341,14 @@ export class JsDocAnalyzer {
      * @returns {boolean} Returns true if the node is a class node, false otherwise
      */
     public isClassNode(node: TSESTree.Node): boolean {
-        if (node.type === 'ClassDeclaration') {
+        if (node.type === "ClassDeclaration") {
             return true;
         }
 
-        if (node.type === 'ExportNamedDeclaration' && node.declaration?.type === 'ClassDeclaration') {
+        if (
+            node.type === "ExportNamedDeclaration" &&
+            node.declaration?.type === "ClassDeclaration"
+        ) {
             return true;
         }
 
@@ -323,7 +361,10 @@ export class JsDocAnalyzer {
      * @param comments - Array of comments to search through
      * @returns The JSDoc comment if found and properly spaced, undefined otherwise
      */
-    public getJSDocComment(node: TSESTree.Node, comments: TSESTree.Comment[]): string | undefined {
+    public getJSDocComment(
+        node: TSESTree.Node,
+        comments: TSESTree.Comment[]
+    ): string | undefined {
         if (!this.shouldHaveJSDoc(node)) {
             return undefined;
         }
@@ -334,11 +375,14 @@ export class JsDocAnalyzer {
             const commentEndLine = comment.loc?.end.line;
 
             // Must be a block comment starting with * (JSDoc style)
-            const isJSDocStyle = comment.type === 'Block' && comment.value.startsWith('*');
+            const isJSDocStyle =
+                comment.type === "Block" && comment.value.startsWith("*");
 
             // Check if the comment is right before the node (no 1-2 line gaps)
-            const properSpacing = commentEndLine && functionStartLine &&
-                (functionStartLine - commentEndLine > 2);
+            const properSpacing =
+                commentEndLine &&
+                functionStartLine &&
+                functionStartLine - commentEndLine > 2;
 
             return isJSDocStyle && properSpacing;
         })?.value;
@@ -363,14 +407,17 @@ export class JsDocAnalyzer {
      * @param className - The name of the class to retrieve methods from. Optional.
      * @returns An array of MethodDefinition nodes representing the methods found.
      */
-    public getClassMethods(filePath: string, className?: string): TSESTree.MethodDefinition[] {
+    public getClassMethods(
+        filePath: string,
+        className?: string
+    ): TSESTree.MethodDefinition[] {
         const ast = this.typeScriptParser.parse(filePath);
         if (!ast) return [];
 
         // Find all class declarations in the file
         const classNodes = ast.body.filter(
             (node: TSESTree.Node): node is TSESTree.ClassDeclaration =>
-                node.type === 'ClassDeclaration' &&
+                node.type === "ClassDeclaration" &&
                 // If className is provided, match it, otherwise accept any class
                 (className ? node.id?.name === className : true)
         );
@@ -380,7 +427,7 @@ export class JsDocAnalyzer {
         for (const classNode of classNodes) {
             const classMethods = classNode.body.body.filter(
                 (node: TSESTree.Node): node is TSESTree.MethodDefinition =>
-                    node.type === 'MethodDefinition'
+                    node.type === "MethodDefinition"
             );
             methods.push(...classMethods);
         }

@@ -10,7 +10,7 @@ class TwitterManager {
     post: TwitterPostClient;
     search: TwitterSearchClient;
     interaction: TwitterInteractionClient;
-    constructor(runtime: IAgentRuntime, twitterConfig:TwitterConfig) {
+    constructor(runtime: IAgentRuntime, twitterConfig: TwitterConfig) {
         this.client = new ClientBase(runtime, twitterConfig);
         this.post = new TwitterPostClient(this.client, runtime);
 
@@ -30,7 +30,8 @@ class TwitterManager {
 
 export const TwitterClientInterface: Client = {
     async start(runtime: IAgentRuntime) {
-        const twitterConfig:TwitterConfig = await validateTwitterConfig(runtime);
+        const twitterConfig: TwitterConfig =
+            await validateTwitterConfig(runtime);
 
         elizaLogger.log("Twitter client started");
 
@@ -40,8 +41,7 @@ export const TwitterClientInterface: Client = {
 
         await manager.post.start();
 
-        if (manager.search)
-            await manager.search.start();
+        if (manager.search) await manager.search.start();
 
         await manager.interaction.start();
 

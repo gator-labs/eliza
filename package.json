@@ -13,7 +13,7 @@
         "lint": "bash ./scripts/lint.sh",
         "prettier-check": "npx prettier --check --cache .",
         "prettier": "npx prettier --write --cache .",
-        "release": "pnpm build && pnpm prettier && npx lerna publish --no-private --force-publish",
+        "release": "pnpm build && pnpm prettier && npx lerna publish --no-private --force-publish --git-remote chomp",
         "clean": "bash ./scripts/clean.sh",
         "docker:build": "bash ./scripts/docker.sh build",
         "docker:run": "bash ./scripts/docker.sh run",
