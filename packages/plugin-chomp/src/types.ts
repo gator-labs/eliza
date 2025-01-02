@@ -1,22 +1,13 @@
-export interface ChompQuestion {
-    id: string;
-    question: string;
-    answer: string;
-    category?: string;
-    difficulty?: 'easy' | 'medium' | 'hard';
-    created_at: Date;
-    updated_at: Date;
+import { z } from "zod";
+
+export interface Question {
+    text: string;
 }
 
-export interface CreateQuestionParams {
-    question: string;
-    answer: string;
-    category?: string;
-    difficulty?: 'easy' | 'medium' | 'hard';
-}
+export const QuestionSchema = z.object({
+    text: z.string().describe("The text of the question"),
+});
 
-export interface FindQuestionParams {
-    category?: string;
-    difficulty?: 'easy' | 'medium' | 'hard';
-    searchTerm?: string;
-}
+export const isQuestion = (obj: any): obj is Question => {
+    return QuestionSchema.safeParse(obj).success;
+};

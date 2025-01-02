@@ -1,1 +1,1 @@
-export * from "./createQuestion.ts";
+export * from "./askQuestion.ts";
