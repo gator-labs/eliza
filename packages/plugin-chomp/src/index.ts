@@ -1,7 +1,7 @@
-import { Plugin, IAgentRuntime } from "@elizaos/core";
+import { Plugin } from "@elizaos/core";
 import { askQuestion } from "./actions/askQuestion.ts";
 
-export * as actions from "./actions";
+// export * as actions from "./actions";
 
 export const chompPlugin: Plugin = {
     name: "CHOMP",
@@ -10,3 +10,5 @@ export const chompPlugin: Plugin = {
     evaluators: [],
     providers: [],
 };
+
+export default chompPlugin;
