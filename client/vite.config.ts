@@ -35,5 +35,17 @@ export default defineConfig(({ mode }) => {
                 "@": "/src",
             },
         },
+        server: {
+            // Allow all hosts since the actual domain may change in production
+            host: true,
+            // Disable host checking altogether for production deployments
+            strictPort: false,
+            cors: true,
+        },
+        preview: {
+            host: true,
+            strictPort: false,
+            cors: true,
+        },
     };
 });
