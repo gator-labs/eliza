@@ -77,4 +77,4 @@ EXPOSE 3000
 # EXPOSE 5173
 
 # Command to start the application
-CMD ["sh", "-c", "pnpm start --characters ./characters/dobby.character.json"]
+CMD ["sh", "-c", "pnpm start --characters ./characters/chompy.character.json"]
