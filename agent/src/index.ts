@@ -71,6 +71,7 @@ import { binancePlugin } from "@elizaos/plugin-binance";
 import { birdeyePlugin } from "@elizaos/plugin-birdeye";
 import { bittensorPlugin } from "@elizaos/plugin-bittensor";
 import { bnbPlugin } from "@elizaos/plugin-bnb";
+import { chompPlugin } from "@elizaos/plugin-chomp";
 import {
     advancedTradePlugin,
     coinbaseCommercePlugin,
@@ -1071,6 +1072,7 @@ export async function createAgent(
                 getSecret(character, "INJECTIVE_PRIVATE_KEY")
                 ? injectivePlugin
                 : null,
+            chompPlugin,
             getSecret(character, "COSMOS_RECOVERY_PHRASE") &&
             getSecret(character, "COSMOS_AVAILABLE_CHAINS") &&
             createCosmosPlugin(),
