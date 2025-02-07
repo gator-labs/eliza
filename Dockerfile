@@ -66,7 +66,7 @@ COPY --from=builder /app/.npmrc ./
 COPY --from=builder /app/turbo.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/agent ./agent
-COPY --from=builder /app/client ./client
+# COPY --from=builder /app/client ./client
 COPY --from=builder /app/lerna.json ./
 COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/scripts ./scripts
@@ -74,7 +74,7 @@ COPY --from=builder /app/characters ./characters
 
 # Expose necessary ports
 EXPOSE 3000
-EXPOSE 5173
+# EXPOSE 5173
 
 # Command to start the application
-CMD ["sh", "-c", "pnpm start --characters ./characters/dobby.character.json & pnpm start:client -- --port 5173 --host 0.0.0.0"]
+CMD ["sh", "-c", "pnpm start --characters ./characters/dobby.character.json"]
